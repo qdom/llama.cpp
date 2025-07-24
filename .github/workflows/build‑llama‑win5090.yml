@@ -1,9 +1,9 @@
 name: Build llama.cpp for RTX 5090
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:          # кнопка «Run workflow»
   push:
-    branches: [main]
+    branches: [main]          # или укажите свою ветку
 
 jobs:
   build:
@@ -20,12 +20,10 @@ jobs:
       shell: pwsh
       run: |
         cmake -B build -G "Ninja" `
-          -DLLAMA_BUILD_SERVER=ON
+          -DLLAMA_BUILD_SERVER=ON `
           -DCMAKE_BUILD_TYPE=Release `
-          -DLLAMA_CUDA=ON `
-          -DCMAKE_CUDA_ARCHITECTURES=120 `
-          -DLLAMA_BUILD_TESTS=OFF
-          -DLLAMA_BUILD_EXAMPLES=ON
+          -GGML_CUDA=ON `
+          -DCMAKE_CUDA_ARCHITECTURES=120
 
     - name: Build
       shell: pwsh
