@@ -20,10 +20,12 @@ jobs:
       shell: pwsh
       run: |
         cmake -B build -G "Ninja" `
-          -DCMAKE_BUILD_TYPE=Release `
-          -DLLAMA_CUDA=ON -DLLAMA_CUBLAS=ON `
-          -DCMAKE_CUDA_ARCHITECTURES=120 `
           -DLLAMA_BUILD_SERVER=ON
+          -DCMAKE_BUILD_TYPE=Release `
+          -DLLAMA_CUDA=ON `
+          -DCMAKE_CUDA_ARCHITECTURES=120 `
+          -DLLAMA_BUILD_TESTS=OFF
+          -DLLAMA_BUILD_EXAMPLES=ON
 
     - name: Build
       shell: pwsh
