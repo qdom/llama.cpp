@@ -29,6 +29,7 @@ jobs:
           -DLLAMA_BUILD_SERVER=ON ^
           -DCMAKE_BUILD_TYPE=Release ^
           -DGGML_CUDA=ON ^
+          -DLLAMA_CURL=OFF ^
           -DCMAKE_CUDA_ARCHITECTURES=120
         set /A NINJA_JOBS=%NUMBER_OF_PROCESSORS%-1
         cmake --build build -j %NINJA_JOBS% --config Release
