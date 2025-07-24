@@ -16,11 +16,6 @@ jobs:
       with:
         cuda_version: '12.8'
 
-    - name: Install Ninja
-      id: install_ninja
-      run: |
-        choco install ninja
-
     - name: Build
       shell: cmd
       run: |
@@ -30,6 +25,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release ^
           -DGGML_CUDA=ON ^
           -DLLAMA_CURL=OFF ^
+          -DGGML_STATIC=ON ^
           -DCMAKE_CUDA_ARCHITECTURES=120
         set /A NINJA_JOBS=%NUMBER_OF_PROCESSORS%-1
         cmake --build build -j %NINJA_JOBS% --config Release
