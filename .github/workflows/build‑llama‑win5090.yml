@@ -22,7 +22,7 @@ jobs:
         cmake -B build -G "Ninja" `
           -DLLAMA_BUILD_SERVER=ON `
           -DCMAKE_BUILD_TYPE=Release `
-          -GGML_CUDA=ON `
+          -DGGML_CUDA=ON `
           -DCMAKE_CUDA_ARCHITECTURES=120
 
     - name: Build
