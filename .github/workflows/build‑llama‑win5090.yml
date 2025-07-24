@@ -1,9 +1,9 @@
 name: Build llama.cpp for RTX 5090
 
 on:
-  workflow_dispatch:          # кнопка «Run workflow»
+  workflow_dispatch:
   push:
-    branches: [main]          # или укажите свою ветку
+    branches: [main]
 
 jobs:
   build:
@@ -16,18 +16,23 @@ jobs:
       with:
         cuda_version: '12.8'
 
-    - name: Configure
-      shell: pwsh
+    - name: Install Ninja
+      id: install_ninja
       run: |
-        cmake -B build -G "Ninja" `
-          -DLLAMA_BUILD_SERVER=ON `
-          -DCMAKE_BUILD_TYPE=Release `
-          -DGGML_CUDA=ON `
-          -DCMAKE_CUDA_ARCHITECTURES=120
+        choco install ninja
 
     - name: Build
-      shell: pwsh
-      run: cmake --build build --parallel $env:NUMBER_OF_PROCESSORS
+      shell: cmd
+      run: |
+        call "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        cmake -S . -B build -G "Ninja" ^
+          -DLLAMA_BUILD_SERVER=ON ^
+          -DCMAKE_BUILD_TYPE=Release ^
+          -DGGML_CUDA=ON ^
+          -DCMAKE_CUDA_ARCHITECTURES=120
+        set /A NINJA_JOBS=%NUMBER_OF_PROCESSORS%-1
+        cmake --build build -j %NINJA_JOBS% --config Release
+
 
     - uses: actions/upload-artifact@v4
       with:
